@@ -8,20 +8,21 @@ import android.content.IntentFilter;
 import android.os.SystemClock;
 import android.widget.Toast;
 
-import com.example.yzblib.ZBGetAppKeyListener;
-import com.example.yzblib.ZBLoadResultCallback;
-import com.example.yzblib.ZBUtils;
+import my.mumayizblive.yzblib.ZBGetAppKeyListener;
+import my.mumayizblive.yzblib.ZBLoadResultCallback;
+import my.mumayizblive.yzblib.ZBUtils;
 
 
 /**
  * Created by Administrator on 2016/8/4.
+ *
  */
 public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        ZBUtils.setDebug(true);
         ZBUtils.init(this, new ZBLoadResultCallback() {
             @Override
             public void success() {

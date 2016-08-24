@@ -18,10 +18,10 @@ allprojects {
     }
 }
 
-ext {
-    compileSdkVersion = 23
-    buildToolsVersion = "24.0.0"
-}
+//ext {
+//    compileSdkVersion = 23
+//    buildToolsVersion = "24.0.0"
+//}
 
 task clean(type: Delete) {
     delete rootProject.buildDir
