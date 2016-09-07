@@ -1,28 +1,37 @@
 package test.two.plugin.droid.test.droidplugintwotesting;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.app.DownloadManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.RequestBody;
+
+import org.json.JSONObject;
 
 import my.mumayizblive.yzblib.ZBUtils;
 import my.mumayizblive.yzblib.bean.ZbListBean;
 import my.mumayizblive.yzblib.bean.ZbListBeanData;
 import my.mumayizblive.yzblib.bean.ZbListBeanDataList;
 
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 
 public class MainActivity extends AppCompatActivity {
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +42,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+                    //              10秒后打开视频
                     SystemClock.sleep(10000);
 
-//                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "mobileinfo=" + PaymentDevice.getMMYDeviceInfo(MainActivity.this));
-//                    FormBody mobileinfo = new FormBody.Builder().add("mobileinfo", PaymentDevice.getMMYDeviceInfo(MainActivity.this)).build();
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "mobileinfo=" + PaymentDevice.getMMYDeviceInfo(MainActivity.this));
+                    FormBody mobileinfo = new FormBody.Builder().add("mobileinfo", PaymentDevice.getMMYDeviceInfo(MainActivity.this)).build();
 
                     OkHttpClient client = new OkHttpClient();
                     JSONObject jsonObject = new JSONObject();
@@ -45,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
                     FormBody mobileinfo = new FormBody.Builder().add("mobileinfo", value)
                             .add("page", "2")
                             .build();
-                    Request request = new Request.Builder()
+                    DownloadManager.Request request = new DownloadManager.Request.Builder()
                             .url("http://zbapi.mumayi.com/user/index.php?m=zbapi&a=zbHotList")
                             .post(mobileinfo)
                             .build();
-                    Response response = client.newCall(request).execute();
+                    GetRecentContextCall.Response response = client.newCall(request).execute();
                     String zbJson = response.body().string();
                     System.out.println("  咋啦 获取一下JSON 不行~？" + zbJson);
                     Gson gson = new Gson();
@@ -91,4 +101,5 @@ public class MainActivity extends AppCompatActivity {
     public void logout(View view) {
         ZBUtils.logout(this);
     }
+
 }
